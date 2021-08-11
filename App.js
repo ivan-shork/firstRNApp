@@ -10,11 +10,7 @@ import React from 'react';
 import TxCourse from './android_app/TxCourse.js';
 
 const App: () => Node = () => {
-
-  return (
-    <TxCourse />
-  );
+  return <TxCourse />;
 };
-
 
 export default App;
