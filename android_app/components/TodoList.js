@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
-
+import TodoItem from './TodoItem';
 class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +10,9 @@ class TodoList extends Component {
   render() {
     return (
       <View>
-        <Text> TodoList </Text>
+        {this.props.list.map(item => {
+          return <TodoItem {...item} />;
+        })}
       </View>
     );
   }

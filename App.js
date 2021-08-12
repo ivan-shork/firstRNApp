@@ -7,10 +7,11 @@
  */
 
 import React from 'react';
-import TxCourse from './android_app/TxCourse.js';
-
+// import TxCourse from './android_app/TxCourse.js';
+import TodoList from './android_app/components/TodoList.js';
+import myTodoList from './android_app/config/myTodoList.js';
 const App: () => Node = () => {
-  return <TxCourse />;
+  return <TodoList list={myTodoList} />;
 };
 
 export default App;
