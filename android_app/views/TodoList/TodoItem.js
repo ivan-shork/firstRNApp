@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 const px2dp = px => PixelRatio.roundToNearestPixel(px);
 import CheckBox from '@react-native-community/checkbox';
-import {DOING, DONE, WILLDO} from '../config/myTodoList';
-import {doubleClick} from '../utils/event';
+import {DOING, DONE, WILLDO} from '../../config/myTodoList';
+import {doubleClick} from '../../utils/event';
 export default class TodoItem extends Component {
   constructor(props) {
     super(props);
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    height: px2dp(50),
   },
   isDone: {
     textDecorationLine: 'line-through',
@@ -79,5 +80,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 6,
     color: 'white',
+    borderWidth: px2dp(1),
+    borderRadius: 4,
   },
 });

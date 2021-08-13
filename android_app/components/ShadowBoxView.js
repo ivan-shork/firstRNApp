@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet, PixelRatio} from 'react-native';
 import {BoxShadow} from 'react-native-shadow';
+const px2dp = px => PixelRatio.roundToNearestPixel(px);
+
 export class ShadowBoxView extends Component {
   _defaultOptions = {
-    color: '#333',
-    border: 3,
+    color: '#fff',
+    border: 0,
     radius: 5,
     opcity: 0.5,
-    x: 3,
-    y: 4,
+    x: 8,
+    y: 30,
   };
   constructor(props) {
     super(props);
@@ -16,11 +18,24 @@ export class ShadowBoxView extends Component {
       contentHeight: 0,
       contentWidth: 0,
       showShadow: false,
+      reRenderProp: false,
     };
+  }
+  componentDidMount() {
+    this.props.onRef(this);
+  }
+  test() {
+    console.log('test');
+  }
+  reRender() {
+    this.setState({
+      reRenderProp: !this.state.reRenderProp,
+    });
+    console.log('重新渲染！！！', this.state.reRenderProp);
   }
   render() {
     const {style, shadowOptions} = this.props;
-    return this.state.showShadow ? (
+    return !this.state.showShadow ? (
       <View
         style={style}
         onLayout={e => {
@@ -42,11 +57,14 @@ export class ShadowBoxView extends Component {
           width: this.state.contentWidth,
           ...this._defaultOptions,
           ...shadowOptions,
-        }}>
+        }}
+        style={styles.box}>
         <View style={style}>{this.props.children}</View>
       </BoxShadow>
     );
   }
 }
+
+const styles = StyleSheet.create({});
 
 export default ShadowBoxView;

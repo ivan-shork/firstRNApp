@@ -1,27 +1,30 @@
 import React, {Component} from 'react';
 import {View, Text, PixelRatio, StyleSheet, ToastAndroid} from 'react-native';
 import TodoItem from './TodoItem';
-import {MyInput} from './TodoInput';
-import {ShadowBoxView} from './ShadowBoxView';
+import MyInput from '../../components/MyInput';
+import ShadowBoxView from '../../components/ShadowBoxView';
 const px2dp = px => PixelRatio.roundToNearestPixel(px);
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
+    this.child = null;
     this.state = {
       list: this.props.list,
       taskVal: '',
     };
   }
   changStatus(id, newStatus) {
-    let i = this.props.list.findIndex(item => item.id === id);
+    let i = this.state.list.findIndex(item => item.id === id);
     const list = this.state.list;
     list[i].status = newStatus;
     this.setState({
       list: list,
     });
   }
-  componentDidMount() {}
+  onRef = child => {
+    this.child = child;
+  };
   render() {
     const setNewTask = val => {
       this.setState({
@@ -41,12 +44,10 @@ class TodoList extends Component {
         name: this.state.taskVal,
         status: 'WILLDO',
       };
-      console.log(newTask);
       this.setState({
         list: this.state.list.concat([newTask]),
         taskVal: '',
       });
-      console.log(this.state.list);
     };
     const resetTask = () => {
       this.setState({
@@ -54,7 +55,11 @@ class TodoList extends Component {
       });
     };
     return (
-      <ShadowBoxView style={styles.list}>
+      // <ShadowBoxView
+      //   onRef={this.onRef}
+      //   style={styles.list}
+      //   shadowOptions={{radius: 40}}>
+      <View style={styles.list}>
         <View>
           {this.state.list.map(item => {
             return (
@@ -79,22 +84,24 @@ class TodoList extends Component {
           onSubmitEditing={addNewTask}
           clearTxt={resetTask}
         />
-      </ShadowBoxView>
+      </View>
+      // </ShadowBoxView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   list: {
-    marginTop: px2dp(50),
+    marginTop: px2dp(30),
     marginLeft: px2dp(20),
     marginRight: px2dp(20),
-    paddingLeft: px2dp(40),
-    paddingRight: px2dp(40),
+    paddingLeft: px2dp(20),
+    paddingRight: px2dp(20),
     paddingTop: px2dp(10),
     paddingBottom: px2dp(10),
     borderWidth: px2dp(2),
-    borderColor: '#333',
+    backgroundColor: 'pink',
+    borderColor: 'steelblue',
     borderRadius: 20,
   },
 });
