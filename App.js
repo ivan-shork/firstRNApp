@@ -10,7 +10,7 @@ import React from 'react';
 // import TxCourse from './android_app/TxCourse.js';
 import TodoList from './android_app/views/TodoList/index.js';
 import myTodoList from './android_app/config/myTodoList.js';
-import TxCourse from './android_app/views/TxCourse';
+import TxCourse from './android_app/navigation/txCourse';
 const App: () => Node = () => {
   return (
     <>
