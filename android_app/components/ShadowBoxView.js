@@ -9,8 +9,8 @@ export class ShadowBoxView extends Component {
     border: 0,
     radius: 5,
     opcity: 0.5,
-    x: 8,
-    y: 30,
+    x: 1,
+    y: 4,
   };
   constructor(props) {
     super(props);
@@ -18,20 +18,7 @@ export class ShadowBoxView extends Component {
       contentHeight: 0,
       contentWidth: 0,
       showShadow: false,
-      reRenderProp: false,
     };
-  }
-  componentDidMount() {
-    this.props.onRef(this);
-  }
-  test() {
-    console.log('test');
-  }
-  reRender() {
-    this.setState({
-      reRenderProp: !this.state.reRenderProp,
-    });
-    console.log('重新渲染！！！', this.state.reRenderProp);
   }
   render() {
     const {style, shadowOptions} = this.props;
@@ -65,6 +52,11 @@ export class ShadowBoxView extends Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  box: {
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+});
 
 export default ShadowBoxView;

@@ -4,9 +4,8 @@ const height = gScreen.screen_height;
 
 const styles = StyleSheet.create({
   homeContainer: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    // marginBottom: 10,
+    paddingLeft: px2dp(10),
+    paddingRight: px2dp(10),
   },
 });
 

@@ -9,7 +9,6 @@ class SwiperItem extends Component {
 
   render() {
     const {swiperData, navigation, styles} = this.props;
-    console.log(swiperData);
     const directToPage = () => {
       navigation.navigate('Detail', {
         course_id: swiperData.course_id,
