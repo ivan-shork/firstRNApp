@@ -5,7 +5,9 @@ class Logo extends Component {
   constructor(props) {
     super(props);
   }
-
+  componentDidMount() {
+    // console.log(this.props.sk);
+  }
   render() {
     const {title} = this.props;
     return (
@@ -28,13 +30,17 @@ class Logo extends Component {
 
 const styles = StyleSheet.create({
   logo: {
-    width: px2dp(35),
-    height: px2dp(35),
+    width: px2dp(25),
+    height: px2dp(25),
     borderRadius: 40,
+    borderWidth: px2dp(1),
+    borderColor: '#fff',
+    marginRight: px2dp(10),
   },
   title: {
-    fontSize: px2dp(25),
+    fontSize: px2dp(17),
     fontWeight: 'bold',
+    color: '#fff',
   },
 });
 

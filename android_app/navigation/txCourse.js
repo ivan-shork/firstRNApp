@@ -34,7 +34,7 @@ function BottomTab() {
         },
         tabBarActiveTintColor: 'salmon',
         tabBarInactiveTintColor: 'gray',
-        ...GlobalSkin,
+        ...GlobalSkin({route}),
       })}>
       <Tab.Screen name="首页" component={HomeScreen} />
       <Tab.Screen name="列表" component={ListScreen} />
