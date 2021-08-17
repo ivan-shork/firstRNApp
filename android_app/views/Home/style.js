@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
   homeContainer: {
     paddingLeft: 10,
     paddingRight: 10,
+    flex: 1,
     // marginBottom: 10,
   },
 });

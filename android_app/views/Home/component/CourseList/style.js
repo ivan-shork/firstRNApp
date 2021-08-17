@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-between',
     borderBottomColor: '#eee',
     borderRadius: 10,
+    marginBottom: 20,
   },
   courseItem: {
     paddingLeft: 10,

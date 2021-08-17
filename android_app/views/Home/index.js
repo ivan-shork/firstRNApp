@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Button, ScrollView} from 'react-native';
+import {Text, View, Button, ScrollView, RefreshControl} from 'react-native';
 import styles from './style';
 import CourseModel from '../../request/modules/course';
 
@@ -18,18 +18,28 @@ export class Home extends Component {
       fieldDatas: [],
       courseDatas: [],
       recomCourseDatas: [],
+      refreshing: false,
     };
   }
 
   _getCourseData() {
     courseModel.getCourseDatas().then(res => {
       const data = res.result;
-      this.setState({
-        swiperDatas: data.swipers,
-        fieldDatas: data.fields,
-        courseDatas: data.courses,
-        recomCourseDatas: data.recomCourses,
-      });
+      this.setState(
+        {
+          swiperDatas: data.swipers,
+          fieldDatas: data.fields,
+          courseDatas: data.courses,
+          recomCourseDatas: data.recomCourses,
+        },
+        () => {
+          if (this.state.refreshing) {
+            this.setState({
+              refreshing: false,
+            });
+          }
+        },
+      );
     });
   }
   componentDidMount() {
@@ -48,8 +58,27 @@ export class Home extends Component {
   }
   render() {
     const {navigation, route} = this.props;
-    const {courseDatas, fieldDatas} = this.state;
+    const {courseDatas, fieldDatas, recomCourseDatas} = this.state;
+    // 页面刷新方法
+    const pageRefreshing = () => {
+      if (this.state.refreshing) {
+        return;
+      }
 
+      this.setState({
+        swiperDatas: [],
+        fieldDatas: [],
+        courseDatas: [],
+        recomCourseDatas: [],
+        refreshing: true,
+      });
+
+      setTimeout(() => {
+        this._getCourseData();
+      }, 1000);
+    };
+
+    // 课程的渲染
     const CoursesRender = fieldDatas.map((fieldItem, index) => {
       const courseItems = courseDatas.filter(courseItem => {
         return courseItem.field === fieldItem.field;
@@ -62,19 +91,36 @@ export class Home extends Component {
       );
     });
 
+    // 推荐课程渲染
+    const RecomCourseRender =
+      recomCourseDatas && recomCourseDatas.length ? (
+        <View>
+          <MainTitle title="推荐课程" />
+          <RecomCourseList recomCourseDatas={recomCourseDatas} />
+        </View>
+      ) : null;
+
     return (
       <View style={styles.homeContainer}>
         <ScrollView
           automaticallyAdjustContentInsets={false}
-          showsVerticalScrollIndicator={false}>
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={pageRefreshing}
+              tintColor="#666"
+              title="loading..."
+              titleColor="#666"
+            />
+          }>
           <SwiperBanner
             navigation={navigation}
             swiperDatas={this.state.swiperDatas}
           />
-
-          <MainTitle title="推荐课程" />
-          <RecomCourseList recomCourseDatas={this.state.recomCourseDatas} />
-
+          {/* 推荐课程 */}
+          {RecomCourseRender}
+          {/* 课程 */}
           {CoursesRender}
         </ScrollView>
       </View>
