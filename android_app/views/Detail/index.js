@@ -17,30 +17,16 @@ export class Detail extends Component {
   }
   render() {
     const {route, navigation} = this.props;
-    const {msg} = route.params;
-    const setPostText = val => {
-      this.setState({
-        postText: val,
-      });
-    };
+    const {course_id} = route.params;
     return (
       <View>
         <Text> Detail </Text>
-        <Text>传递参数: {msg}</Text>
-        <TextInput
-          multiline
-          style={{height: 200, padding: 10, backgroundColor: 'white'}}
-          value={this.state.postText}
-          onChangeText={setPostText}
-        />
+        <Text>传递参数course_id: {course_id}</Text>
         <Button
-          title="回去首页并传递一个参数"
+          title="回去首页"
           onPress={() => {
             navigation.navigate({
               name: '首页',
-              params: {
-                postText: this.state.postText,
-              },
             });
           }}
         />

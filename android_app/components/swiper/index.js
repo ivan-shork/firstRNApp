@@ -13,9 +13,19 @@ class SwiperBanner extends Component {
   render() {
     const {swiperDatas, navigation} = this.props;
 
+    // swiper配置
+    const swiperOptions = {
+      paginationStyle: styles.paginationStyle,
+      dot: <View style={styles.dot} />,
+      activeDot: <View style={styles.dotActive} />,
+      autoplay: true,
+      autoPlayTimeout: 3,
+      removeClippedSubviews: false,
+    };
+
     return (
-      <View>
-        <Swiper>
+      <View style={styles.swiperContainer}>
+        <Swiper {...swiperOptions}>
           {swiperDatas.map((item, index) => {
             return (
               <SwiperItem

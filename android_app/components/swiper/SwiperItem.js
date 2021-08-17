@@ -9,14 +9,15 @@ class SwiperItem extends Component {
 
   render() {
     const {swiperData, navigation, styles} = this.props;
+    console.log(swiperData);
     const directToPage = () => {
       navigation.navigate('Detail', {
         course_id: swiperData.course_id,
       });
     };
     return (
-      <TouchableWithoutFeedback onPress={directToPage}>
-        <Image style={styles.swiperSize} source={{url: swiperData.img}} />
+      <TouchableWithoutFeedback style={styles.slider} onPress={directToPage}>
+        <Image style={styles.sliderImg} source={{uri: swiperData.img}} />
       </TouchableWithoutFeedback>
     );
   }
