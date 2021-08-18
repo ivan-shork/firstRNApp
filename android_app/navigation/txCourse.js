@@ -7,9 +7,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../views/Home';
 import ListScreen from '../views/List';
 import DetailScreen from '../views/Detail';
-
+import TodoScreen from '../views/TodoList';
 // 样式
-import GlobalSkin from './skin';
+import skin from './skin';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +27,9 @@ function BottomTab() {
             case '列表':
               iconName = 'bank';
               break;
+            case '待办事项':
+              iconName = 'apple';
+              break;
             default:
               break;
           }
@@ -34,10 +37,11 @@ function BottomTab() {
         },
         tabBarActiveTintColor: 'salmon',
         tabBarInactiveTintColor: 'gray',
-        ...GlobalSkin({route}),
+        ...skin({route}),
       })}>
       <Tab.Screen name="首页" component={HomeScreen} />
       <Tab.Screen name="列表" component={ListScreen} />
+      <Tab.Screen name="待办事项" component={TodoScreen} />
     </Tab.Navigator>
   );
 }
@@ -46,7 +50,7 @@ function TxCourse() {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={GlobalSkin} initialRouteName="Tab">
+      <Stack.Navigator screenOptions={skin} initialRouteName="Tab">
         {/* Tab路由里嵌套了两个tab路由 */}
         <Stack.Screen
           name="Tab"

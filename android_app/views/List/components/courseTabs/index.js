@@ -7,15 +7,16 @@ export class CourseTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkTab: 0,
+      checkedTab: 0,
     };
   }
   render() {
-    const {tabs} = this.props;
-    const checkTab = i => {
+    const {tabs, showCheckCourses} = this.props;
+    const checkTab = (i, field) => {
       this.setState({
         checkedTab: i,
       });
+      showCheckCourses(field);
     };
     const {checkedTab} = this.state;
     return (
@@ -26,7 +27,7 @@ export class CourseTab extends Component {
               key={index}
               tab={item}
               is_checked={checkedTab === index}
-              check={() => checkTab(index)}
+              check={() => checkTab(index, item.field)}
             />
           );
         })}

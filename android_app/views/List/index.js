@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Text, View, Button} from 'react-native';
+import {Text, View, Button, ScrollView} from 'react-native';
 import styles from './style';
 import ListModel from '../../request/modules/list';
 
 // 首页组件
 import CourseTab from './components/courseTabs';
-
+import Course from './components/course';
 const listModel = new ListModel();
 
 export class List extends Component {
@@ -14,12 +14,13 @@ export class List extends Component {
     this.state = {
       fieldData: [],
       courseData: [],
+      curField: 'all',
     };
   }
 
   _getDatas(field) {
     this._getCourseFields();
-    this._getCourses();
+    this._getCourses(field);
   }
   _getCourseFields() {
     listModel
@@ -46,24 +47,39 @@ export class List extends Component {
       });
   }
 
+  _updateCourses(field) {
+    this._getCourses(field);
+    this.setState({
+      curField: field,
+    });
+  }
+
   componentDidMount() {
-    this._getDatas(this.state.field);
+    this._getDatas(this.state.curField);
     // 反应导航componentDidMount只在用户第一次打开屏幕时出现一次,如果以后用户再次打开此页面则不会触发componentDidMount.
     // 所以要为导航添加监听
     this._unsubscribe = this.props.navigation.addListener('focus', e => {
       console.log('点击tab，开始请求.....');
-      this._getDatas(this.state.field);
+      this._getDatas(this.state.curField);
     });
   }
   componentWillUnmount() {
     this._unsubscribe();
   }
   render() {
-    const {navigation, route} = this.props;
-    const {fieldData} = this.state;
+    const {navigation} = this.props;
+    const {fieldData, courseData} = this.state;
     return (
       <View>
-        <CourseTab tabs={fieldData} />
+        <ScrollView
+          automaticallyAdjustContentInsets={false}
+          showsVerticalScrollIndicator={false}>
+          <CourseTab
+            tabs={fieldData}
+            showCheckCourses={field => this._updateCourses(field)}
+          />
+          <Course courses={courseData} navigation={navigation} />
+        </ScrollView>
       </View>
     );
   }

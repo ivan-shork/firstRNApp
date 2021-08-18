@@ -3,6 +3,7 @@ import {View, Text, PixelRatio, StyleSheet, ToastAndroid} from 'react-native';
 import TodoItem from './TodoItem';
 import MyInput from '../../components/MyInput';
 import ShadowBoxView from '../../components/ShadowBoxView';
+import allTodoList from '../../config/myTodoList';
 const px2dp = px => PixelRatio.roundToNearestPixel(px);
 
 class TodoList extends Component {
@@ -10,7 +11,7 @@ class TodoList extends Component {
     super(props);
     this.child = null;
     this.state = {
-      list: this.props.list,
+      list: allTodoList,
       taskVal: '',
     };
   }
