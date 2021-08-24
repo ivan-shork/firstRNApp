@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Text, View, Button, ScrollView} from 'react-native';
-import styles from './style';
+import {View, ScrollView, RefreshControl} from 'react-native';
 import ListModel from '../../request/modules/list';
+import MyRefreshControl from '../../components/MyrefreshControl';
+import PageLoading from '../../components/PageLoading';
 
 // 首页组件
 import CourseTab from './components/courseTabs';
@@ -15,13 +16,20 @@ export class List extends Component {
       fieldData: [],
       courseData: [],
       curField: 'all',
+      isRefreshing: false,
+      loading: false,
     };
   }
-
-  _getDatas(field) {
-    this._getCourseFields();
-    this._getCourses(field);
+  // 初始化数据
+  async _getDatas(field) {
+    await this._getCourseFields();
+    await this._getCourses(field);
+    this.setState({
+      isRefreshing: false,
+      loading: false,
+    });
   }
+  // 请求
   _getCourseFields() {
     listModel
       .getCourseFields()
@@ -34,6 +42,7 @@ export class List extends Component {
         console.log('请求错误了', err);
       });
   }
+  // 请求
   _getCourses(field) {
     listModel
       .getCourses(field)
@@ -41,17 +50,34 @@ export class List extends Component {
         this.setState({
           courseData: res.result,
         });
+        console.log(res);
       })
       .catch(err => {
         console.log('请求错误了', err);
       });
   }
-
+  // 点击tab时更新course数据
   _updateCourses(field) {
     this._getCourses(field);
     this.setState({
       curField: field,
     });
+  }
+
+  // 刷新逻辑
+  pageRefreshing() {
+    if (this.state.isRefreshing) {
+      return;
+    }
+    this.setState({
+      courseData: [],
+      fieldData: [],
+      isRefreshing: true,
+      loading: true,
+    });
+    setTimeout(() => {
+      this._getDatas(this.state.curField);
+    }, 1000);
   }
 
   componentDidMount() {
@@ -68,17 +94,34 @@ export class List extends Component {
   }
   render() {
     const {navigation} = this.props;
-    const {fieldData, courseData} = this.state;
+    const {fieldData, courseData, isRefreshing} = this.state;
     return (
       <View>
         <ScrollView
-          automaticallyAdjustContentInsets={false}
-          showsVerticalScrollIndicator={false}>
-          <CourseTab
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={this.pageRefreshing.bind(this)}
+              title="loading..."
+            />
+          }>
+          {this.state.loading ? (
+            <PageLoading />
+          ) : (
+            <View>
+              <CourseTab
+                tabs={fieldData}
+                showCheckCourses={field => this._updateCourses(field)}
+              />
+              <Course courses={courseData} navigation={navigation} />
+            </View>
+          )}
+          {/* <CourseTab
             tabs={fieldData}
             showCheckCourses={field => this._updateCourses(field)}
           />
-          <Course courses={courseData} navigation={navigation} />
+          <Course courses={courseData} navigation={navigation} /> */}
         </ScrollView>
       </View>
     );

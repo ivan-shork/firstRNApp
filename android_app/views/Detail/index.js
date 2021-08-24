@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-
+import WebView from 'react-native-webview';
 export class Detail extends Component {
   constructor(props) {
     super(props);
@@ -19,18 +19,10 @@ export class Detail extends Component {
     const {route, navigation} = this.props;
     const {course_id} = route.params;
     return (
-      <View>
-        <Text> Detail </Text>
-        <Text>传递参数course_id: {course_id}</Text>
-        <Button
-          title="回去首页"
-          onPress={() => {
-            navigation.navigate({
-              name: '首页',
-            });
-          }}
-        />
-      </View>
+      <WebView
+        source={{uri: 'https://ke.qq.com/course/' + course_id}}
+        startInLoadingState={true}
+      />
     );
   }
 }
